@@ -6,14 +6,14 @@
             <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
             <?php echo $this->session->flashdata('flashSuccess')?>
         </div>
-    <?php endif?>
+    <?php endif; ?>
 
     <?php if ($this->session->flashdata('flashError')): ?>
         <div class='alert alert-danger alert-dismissable'>
             <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
             <?php echo $this->session->flashdata('flashError') ?>
         </div>
-    <?php endif?>
+    <?php endif; ?>
 
 
     <h2 class="h2">Manage Currencies</h2>
@@ -140,13 +140,4 @@
     </div>
 </div>
 
-<script type="text/javascript">
-    $(document).ready(function() {
-        $('#rates').DataTable();
-
-        $('.updateCurrency').on('click', function () {
-            $('#hdCurrencyId').val($(this).attr('data-id'));
-            $('#txtCurrency').text($(this).attr('data-currency'));
-        });       
-    });
-</script>
+<script type="text/javascript" src="<?php echo base_url(); ?>assets/js/custom.js"></script>

@@ -4,7 +4,9 @@ if (!defined('BASEPATH'))
     exit('No direct script access allowed');
 
 /**
- * Description of signin
+ * Login Class
+ *
+ * Includes all functionality for login and logout of users
  *
  */
 class Login extends MY_Controller {
@@ -16,6 +18,9 @@ class Login extends MY_Controller {
         $this->load->model('login_model');
     }
 
+    /*
+    * Loads login form
+    */
     public function index()
     {
         $data['title'] = 'Signin';
@@ -30,6 +35,11 @@ class Login extends MY_Controller {
         }
     }
 
+    /*
+    * 
+    * function to validate user login
+    *
+    */
     public function processLogin()
     {
         $this->form_validation->set_rules('email', 'Email','required|valid_email|max_length[128]|trim');
@@ -41,7 +51,7 @@ class Login extends MY_Controller {
             $email = $this->input->post('email');
             $password = $this->input->post('password');
                 
-            $result = $this->login_model->loginMe($email, $password);
+            $result = $this->login_model->login($email, $password);
             if(!empty($result))
             {
                 $sessionArray = [
@@ -60,6 +70,9 @@ class Login extends MY_Controller {
         }    
     }
 
+    /*
+    * function to logout user
+    */
     public function logout()
     {
         $this->session->sess_destroy();

@@ -17,7 +17,7 @@ class Login_model extends CI_Model
 	 * @param string $email : This is email of the user
 	 * @param string $password : This is encrypted password of the user
 	 */
-	function loginMe($email, $password)
+	function login($email, $password)
 	{
 	    $this->db->select('id,email,password,user_role,created_at,updated_at');
 	    $this->db->from($this->users_table);
@@ -38,6 +38,14 @@ class Login_model extends CI_Model
 	    }
 	}
 
+	/*
+	*
+	* function to verify if the password is correct based on the existing hashed
+	* @param string $plainPassword
+	* @param string $hashedPassword
+	*
+	* return boolean
+	*/
     public function verifyHashedPassword($plainPassword, $hashedPassword)
     {
         return password_verify($plainPassword, $hashedPassword) ? true : false;

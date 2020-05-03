@@ -3,10 +3,10 @@
 (defined('BASEPATH')) OR exit('No direct script access allowed');
 
 /**
- * Admin Controller
- *
- *
+ * Dashboard Controller for currency crud
+ * 
  */
+
 class Dashboard extends MY_Controller {
 
     function __construct()
@@ -15,6 +15,11 @@ class Dashboard extends MY_Controller {
         $this->load->library("currency_service");
     }
 
+	/*
+	* Function to load currency page and get all active currency exchange rates data
+	*
+	* @return mixed 
+	*/
     public function index()
     {
     	isAuthorized();
@@ -23,9 +28,12 @@ class Dashboard extends MY_Controller {
     	renderTemplate('dashboard/index', $data);
     }
 
+    /*
+	* Function Create New currency
+	*
+	*/
     public function create()
     {
-
         $response = $this->currency_service->createAction($this->input->post());
 
         if ($response) {
@@ -37,6 +45,10 @@ class Dashboard extends MY_Controller {
         redirect('/dashboard');
     }
 
+ 	/*
+	* Fuction to Update of existing currency
+	*
+	*/
     public function update()
     {
     	$response = $this->currency_service->updateAction($this->input->post());
@@ -50,6 +62,10 @@ class Dashboard extends MY_Controller {
         redirect('/dashboard');
     }
 
+	/*
+	* Function to Update all currency exchange rates
+	*
+	*/
     public function updateAllCurrencies()
     {
     	$response = $this->currency_service->updateAllCurrenciesAction();

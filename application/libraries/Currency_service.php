@@ -1,6 +1,12 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
+/*
+* Class Currency_service.
+* Includes all business logic for currency crud
+*
+*/
+
 class Currency_service extends BaseService
 {
 	public $ci;
@@ -12,9 +18,14 @@ class Currency_service extends BaseService
 		$this->ci->load->model('currency_model');
 	}
 
+	/*
+	*
+	* @param array $request
+	*
+	* @return boolean 
+	*/
 	public function createAction($request)
 	{
-
 		$currency = $this->ci->security->xss_clean($request["ddCurrency"]);
         $currency = explode("|", $currency);
 
@@ -27,6 +38,11 @@ class Currency_service extends BaseService
         return $this->ci->currency_model->insertCurrencyRate($currencyData);
 	}
 
+	/*
+	* @param array $request
+	*
+	* @return boolean 
+	*/
 	public function updateAction($request)
 	{
 
@@ -45,6 +61,11 @@ class Currency_service extends BaseService
         return $this->ci->currency_model->updateCurrencyRate($request['hdCurrencyId'],$currencyData);
 	}
 
+	/*
+	* @param array $request
+	*
+	* @return boolean 
+	*/
 	public function updateAllCurrenciesAction()
 	{
 		$existingCurrencies = $this->ci->currency_model->retrieveAllCurrencyRates();
