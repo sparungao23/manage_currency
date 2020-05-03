@@ -20,9 +20,9 @@ class Currency_model extends My_Model {
     */
     public function retrieveAllCurrencyRates()
     {
-        $sql = "Select * from ".$this->currency_rates_table." WHERE is_active=1 order by currency ASC";
-      	$query = $this->db->query($sql);
-		return $query->result();
+        $obj = new stdClass();
+        $obj->is_active = 1;
+        return $this->fetch_all_where($this->currency_rates_table,$obj);
     }
     
     /*
@@ -38,7 +38,7 @@ class Currency_model extends My_Model {
     }
 
     /*
-    * Get currency per Id
+    * Insert new currency
     *
     * @param array $array
     *
@@ -50,7 +50,7 @@ class Currency_model extends My_Model {
     }
 
     /*
-    * Get currency per Id
+    * Update existing currency by Id
     *
     * @param int $id
     * @param array $array

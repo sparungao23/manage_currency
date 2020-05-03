@@ -14,7 +14,7 @@ class My_Model extends CI_Model {
     }
 
     /**
-     * private method save
+     * public method save
      * @param unknown $table
      * @param unknown $array
      */
@@ -26,7 +26,7 @@ class My_Model extends CI_Model {
     }
 
     /**
-     * private method update
+     * public method update
      * @param unknown $obj
      */
     public function update($obj)
@@ -37,7 +37,7 @@ class My_Model extends CI_Model {
     }
 
     /**
-     * private method fetchAll
+     * public method fetchAll
      * @param unknown $table
      */
     public function fetch_all($table)
@@ -46,12 +46,12 @@ class My_Model extends CI_Model {
         return $query->result();
     }
     /**
-     * private method fetchAll
+     * public method fetchAll
      * @param unknown $table
      */
     public function fetch_all_where($table,$where=null)
     {
-        if(!is_null($where) && count($where) > 0) {
+        if(!is_null($where) && !empty($where)) {
             foreach($where as $k => $v) {
                 $this->db->where($k,$v);
             }
@@ -61,7 +61,7 @@ class My_Model extends CI_Model {
     }
 
     /**
-     * private method fetchUsingId
+     * public method fetchUsingId
      * @param unknown $id
      * @param unknown $table
      */
@@ -73,7 +73,7 @@ class My_Model extends CI_Model {
     }
 
     /**
-     * private method fetch_using_pk_id
+     * public method fetch_using_pk_id
      * @param unknown $id
      * @param unknown $table
      */
@@ -85,7 +85,7 @@ class My_Model extends CI_Model {
     }
 
     /**
-     * private method fetch_using_pk_id
+     * public method fetch_using_pk_id
      * @param unknown $id
      * @param unknown $table
      */
@@ -97,7 +97,7 @@ class My_Model extends CI_Model {
     }
 
     /**
-     * private method delete
+     * public method delete
      * @param unknown $id
      * @param unknown $table
      */

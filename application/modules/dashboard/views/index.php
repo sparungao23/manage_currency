@@ -18,9 +18,9 @@
 
     <h2 class="h2">Manage Currencies</h2>
     <div class="float-right">
-        <input type="button" class="btn btn-primary" value="Add currency"
+        <input type="button" class="btn btn-primary btn-md" value="Add currency"
          data-toggle="modal" data-target="#addCurrencyModal"/>
-        <input type="button" class="btn btn-success" value="Update rates"
+        <input type="button" class="btn btn-success  btn-md" value="Update rates"
         data-toggle="modal" data-target="#updateAllCurrenciesModal" />
     </div>    
     <br class="clear" /><br class="clear" />
