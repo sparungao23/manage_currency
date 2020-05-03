@@ -19,7 +19,8 @@ class Currency_service extends BaseService
 	}
 
 	/*
-	*
+	* This function is used to process all the request data and call the model to process it.
+	* 
 	* @param array $request
 	*
 	* @return boolean 
@@ -29,16 +30,22 @@ class Currency_service extends BaseService
 		$currency = $this->ci->security->xss_clean($request["ddCurrency"]);
         $currency = explode("|", $currency);
 
-        $currencyData = [
-        	'currency' => isset($currency[0]) ? $currency[0] : '',
-            'rate' => isset($currency[1]) ? $currency[1] : '',
-            'created_by_user_id' => $this->ci->session->userdata['user_id']
-        ];
+        if (isset($request["ddCurrency"]) && !empty($request["ddCurrency"])) {
+			$currencyData = [
+	        	'currency' => isset($currency[0]) ? $currency[0] : '',
+	            'rate' => isset($currency[1]) ? $currency[1] : 0,
+	            'created_by_user_id' => $this->ci->session->userdata['user_id']
+	        ];
 
-        return $this->ci->currency_model->insertCurrencyRate($currencyData);
+	        return $this->ci->currency_model->insertCurrencyRate($currencyData);
+        }
+        return false;
 	}
 
 	/*
+	* This function is used to process all the request data and call the third party api to get
+	* the currenct exchange rate per currency code.
+	*
 	* @param array $request
 	*
 	* @return boolean 
@@ -46,22 +53,34 @@ class Currency_service extends BaseService
 	public function updateAction($request)
 	{
 
-		$currency = $this->ci->currency_model->retrieveCurrencyRateById($request['hdCurrencyId']);
+		$currency = $this->ci->currency_model->retrieveCurrencyRateById(
+			$request['hdCurrencyId']
+		);
 		$exchangeRates = getCurrencyRatesUsingThirdPartyAPI(config_item('xr_url'));
 
-		$rate = 0;
-		if (array_key_exists($currency->currency, $exchangeRates['rates'])) {
-			$rate = $exchangeRates['rates'][$currency->currency];
-		}
+		if (isset($request["hdCurrencyId"]) && !empty($request["hdCurrencyId"])) {
+			$rate = 0;
+			if (array_key_exists($currency->currency, $exchangeRates['rates'])) {
+				$rate = $exchangeRates['rates'][$currency->currency];
+			}
 
-		$currencyData = [
-			'rate' => $rate,
-			'updated_at' => date('Y-m-d H:i:s')
-		];
-        return $this->ci->currency_model->updateCurrencyRate($request['hdCurrencyId'],$currencyData);
+			$currencyData = [
+				'rate' => $rate,
+				'updated_at' => date('Y-m-d H:i:s')
+			];
+	        return $this->ci->currency_model->updateCurrencyRate(
+	        	$request['hdCurrencyId'],
+	        	$currencyData
+	        );
+		}
+		
+		return false;
 	}
 
 	/*
+	* This function is used to update all the existing currencies exchange rates using 
+	* a third party api.
+	*
 	* @param array $request
 	*
 	* @return boolean 
@@ -73,7 +92,7 @@ class Currency_service extends BaseService
 
 		$this->ci->db->trans_start();
 
-			foreach($existingCurrencies as $currency):
+			foreach ($existingCurrencies as $currency):
 				$rate = 0;
 				if (array_key_exists($currency->currency, $exchangeRates['rates'])) {
 					$rate = $exchangeRates['rates'][$currency->currency];
@@ -83,7 +102,10 @@ class Currency_service extends BaseService
 						'updated_at' => date('Y-m-d H:i:s')
 					];
 
-					$this->ci->currency_model->updateCurrencyRate($currency->id,$currencyData);
+					$this->ci->currency_model->updateCurrencyRate(
+						$currency->id,
+						$currencyData
+					);
 				}		
 			endforeach;
 

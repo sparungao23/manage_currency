@@ -30,7 +30,6 @@
         <tr>
           <th>Currency</th>
           <th>Rate</th>
-          <th>Country</th>
           <th>Date Updated</th>
           <th>Action</th>
         </tr>
@@ -40,7 +39,6 @@
             <tr>
               <td><?php echo $result->currency; ?></td>
               <td><?php echo $result->rate; ?></td>
-              <td><?php echo $result->country; ?></td>
               <td><?php echo $result->updated_at; ?></td>
               <td>
                 <input type="button" class="btn btn-success btn-sm updateCurrency"
